@@ -67,6 +67,8 @@ public class ToStringUtilsTest {
         private Map<String, Person> objectMap;
         private Map<String, List<Person>> objectPersonMap;
 
+        private Map<Person, Person> objectKeyPersonMap;
+
         public void init() {
             super.init();
 
@@ -100,6 +102,9 @@ public class ToStringUtilsTest {
             objectMap.put("data2", new Person());
             objectPersonMap = new HashMap<>();
             objectPersonMap.put("list1", Arrays.asList(new Person().init(), new Person().init()));
+
+            objectKeyPersonMap = new HashMap<>();
+            objectKeyPersonMap.put(new Person().init(), new Person().init());
         }
     }
 

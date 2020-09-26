@@ -135,8 +135,8 @@ public class ToStringUtils {
     /**
      * map类型
      */
-    private static Map<String, Object> buildMapValue(String value) throws ParseException {
-        Map<String, Object> result = new HashMap<>();
+    private static Map<Object, Object> buildMapValue(String value) throws ParseException {
+        Map<Object, Object> result = new HashMap<>();
         value = value.substring(1, value.length() - 1).trim();
         if (StringUtils.isEmpty(value)) {
             return result;
@@ -144,9 +144,8 @@ public class ToStringUtils {
 
         String token = null;
         while (StringUtils.isNotEmpty(token = splitToken(value))) {
-            String fieldName = StringUtils.substringBefore(token, "=").trim();
-            String fieldValue = StringUtils.substringAfter(token, "=").trim();
-            result.put(fieldName, buildTypeValue(fieldName, fieldValue));
+            Pair<String, String> keyValue = parseToken(token);
+            result.put(buildTypeValue(keyValue.getKey(), keyValue.getKey()), buildTypeValue(keyValue.getKey(), keyValue.getValue()));
 
             value = StringUtils.removeStart(StringUtils.removeStart(value, token).trim(), ",").trim();
         }
@@ -164,43 +163,49 @@ public class ToStringUtils {
          */
         private static List<Character> TOKEN_LEFT = Arrays.asList('(', '{', '[');
         private static List<Character> TOKEN_RIGHT = Arrays.asList(')', '}', ']');
-        private static final String SPLIT_FLAG = "=";
 
         static String splitToken(String toString) {
             if (StringUtils.isBlank(toString)) {
                 return toString;
             }
 
-            Stack<Character> stack = new Stack<>();
-
-            for (int i = 0; i < toString.length(); i++) {
-                char c = toString.charAt(i);
-                if (TOKEN_LEFT.contains(c)) {
-                    stack.push(c);
-                } else if (TOKEN_RIGHT.contains(c)) {
-                    if (TOKEN_LEFT.indexOf(stack.peek()) != TOKEN_RIGHT.indexOf(c)) {
-                        throw new RuntimeException("splitFirstToken error, stack=" + stack + ", toString=" + toString);
-                    }
-
-                    stack.pop();
-                } else if (c == ',' && stack.isEmpty()) {
-                    return toString.substring(0, i);
-                }
-            }
-
-            if (stack.isEmpty()) {
-                return toString;
-            }
-            throw new RuntimeException("splitFirstToken error, stack=" + stack + ", toString=" + toString);
+            int index = indexOfSplitToken(toString, ',');
+            return toString.substring(0, index);
         }
 
         /**
          * 从token解析出字段名，及对应属性(确保格式为 name=xxx )
          */
         static Pair<String, String> parseToken(String token) {
-            assert Objects.nonNull(token) && token.contains(SPLIT_FLAG);
-            return new Pair<>(StringUtils.substringBefore(token, SPLIT_FLAG),
-                    StringUtils.substringAfter(token, SPLIT_FLAG));
+            int index = indexOfSplitToken(token, '=');
+            return new Pair<>(token.substring(0, index), token.substring(index + 1));
+        }
+
+        /**
+         * 获取token中split下表
+         */
+        private static int indexOfSplitToken(String token, char split) {
+            Stack<Character> stack = new Stack<>();
+
+            for (int i = 0; i < token.length(); i++) {
+                char c = token.charAt(i);
+                if (TOKEN_LEFT.contains(c)) {
+                    stack.push(c);
+                } else if (TOKEN_RIGHT.contains(c)) {
+                    if (TOKEN_LEFT.indexOf(stack.peek()) != TOKEN_RIGHT.indexOf(c)) {
+                        throw new RuntimeException("splitFirstToken error, stack=" + stack + ", toString=" + token);
+                    }
+
+                    stack.pop();
+                } else if (c == split && stack.isEmpty()) {
+                    return i;
+                }
+            }
+
+            if (stack.isEmpty()) {
+                return token.length();
+            }
+            throw new RuntimeException("splitFirstToken error, stack=" + stack + ", toString=" + token);
         }
     }
 }
