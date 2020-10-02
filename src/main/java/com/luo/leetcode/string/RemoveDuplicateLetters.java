@@ -18,6 +18,9 @@ public class RemoveDuplicateLetters {
         System.out.println(new RemoveDuplicateLetters().removeDuplicateLetters("bbcaac"));
     }
 
+    /**
+     * 按照字典序排序，也就说是遍历字符串，如果当前字符cur小于上一个字符prev并且后面还有字符prev，那么就将cur保留，将prev丢弃，以满足字典序最小。
+     */
     public String removeDuplicateLetters(String s) {
         int[] count = new int[256];
         for (char c : s.toCharArray()) {
