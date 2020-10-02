@@ -8,17 +8,18 @@ import java.util.List;
 
 /**
  * @author luoxiangnan
- * @date 2020-09-29
+ * @date 2020-10-02
  */
 @NoArgsConstructor
 @AllArgsConstructor
-public class TreeNode {
+public class Node {
 
     public int val;
-    public TreeNode left;
-    public TreeNode right;
+    public Node left;
+    public Node right;
+    public Node next;
 
-    public TreeNode(int val) {
+    public Node(int val) {
         this.val = val;
     }
 
@@ -27,7 +28,7 @@ public class TreeNode {
         return middleOrderTravel(this, new ArrayList<>()).toString();
     }
 
-    private List<Integer> middleOrderTravel(TreeNode node, List<Integer> result) {
+    private List<Integer> middleOrderTravel(Node node, List<Integer> result) {
         if (node == null) {
             return result;
         }
