@@ -1,4 +1,4 @@
-package com.luo.leetcode.dp.stock;
+package com.luo.leetcode.dp;
 
 /**
  * 买卖股票的最佳时机
