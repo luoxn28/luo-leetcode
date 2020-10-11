@@ -1,6 +1,7 @@
 package com.luo.leetcode.tree.base;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
  * @author luoxiangnan
  * @date 2020-09-29
  */
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class TreeNode {
