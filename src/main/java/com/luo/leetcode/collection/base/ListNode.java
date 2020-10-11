@@ -13,8 +13,8 @@ public class ListNode {
         val = x;
     }
 
-    public ListNode next(int nextx) {
-        return this.next = new ListNode(nextx);
+    public ListNode next(int next) {
+        return this.next = new ListNode(next);
     }
 
     @Override

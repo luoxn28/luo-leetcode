@@ -46,7 +46,8 @@ public class CoinChange {
         }
     }
 
-    private Map<Integer, Integer> resultMap = new HashMap<>();
+
+    private Map<Integer, Integer> dp = new HashMap<>();
 
     public int coinChange(int[] coins, int amount) {
         if (amount < 0) {
@@ -57,17 +58,15 @@ public class CoinChange {
 
         int result = Integer.MAX_VALUE;
         for (int coin : coins) {
-            Integer res = resultMap.get(amount - coin);
+            Integer res = dp.get(amount - coin);
             if (res == null) {
                 res = coinChange(coins, amount - coin);
-                resultMap.put(amount - coin, res);
+                dp.put(amount - coin, res);
             }
 
-            if (res == -1) {
-                continue;
+            if (res != -1) {
+                result = Math.min(result, res + 1);
             }
-
-            result = Math.min(result, res + 1);
         }
         return result == Integer.MAX_VALUE ? -1 : result;
     }
