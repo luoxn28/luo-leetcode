@@ -22,8 +22,6 @@ public class RegularIsMatch {
         System.out.println(new RegularIsMatch().isMatch("a", ""));
     }
 
-    private Map<String, Boolean> memo = new HashMap<>();
-
     public boolean isMatch(String text, String pattern) {
         if (Objects.equals(text, pattern)) {
             return true;
@@ -33,6 +31,8 @@ public class RegularIsMatch {
         return memo.getOrDefault("0-0", false);
     }
 
+    private Map<String, Boolean> memo = new HashMap<>();
+
     private boolean dp(String text, String pattern, int i, int j) {
         String key = i + "-" + j;
         if (memo.containsKey(key)) {
@@ -40,7 +40,7 @@ public class RegularIsMatch {
         }
 
         if (j == pattern.length()) {
-            return i == text.length();
+            return memo.computeIfAbsent(key, k -> i == text.length());
         }
 
         boolean result;
@@ -51,7 +51,6 @@ public class RegularIsMatch {
         } else {
             result = first && dp(text, pattern, i + 1, j + 1);
         }
-        memo.put(key, result);
-        return result;
+        return memo.computeIfAbsent(key, k -> result);
     }
 }
