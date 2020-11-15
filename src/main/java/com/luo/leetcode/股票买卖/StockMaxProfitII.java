@@ -1,7 +1,7 @@
-package com.luo.leetcode.dp;
+package com.luo.leetcode.股票买卖;
 
 /**
- * 买卖股票的最佳时机 II
+ * 买卖股票的最佳时机 II（可多次进行买卖）
  * https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/
  *
  * @author luoxiangnan

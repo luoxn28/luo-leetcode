@@ -1,4 +1,4 @@
-package com.luo.leetcode.string;
+package com.luo.leetcode.单调栈;
 
 import java.util.Stack;
 
@@ -19,7 +19,10 @@ public class RemoveDuplicateLetters {
     }
 
     /**
+     * 单调栈思路，栈内元素按照字典序。
      * 按照字典序排序，也就说是遍历字符串，如果当前字符cur小于上一个字符prev并且后面还有字符prev，那么就将cur保留，将prev丢弃，以满足字典序最小。
+     * 如果当前字符cur大于上一个字符，那么直接push到栈中。
+     * 如果当前字符cur和上一个字符相等，那么如果当前cur是相同字符的最后一个，那么需要保留，否则移除上一个字符。
      */
     public String removeDuplicateLetters(String s) {
         int[] count = new int[256];
@@ -49,37 +52,4 @@ public class RemoveDuplicateLetters {
         }
         return sb.reverse().toString();
     }
-
-//    public String removeDuplicateLetters2(String s) {
-//        TreeMap<Character, LinkedList<Integer>> treeMap = new TreeMap<>();
-//        for (int i = 0; i < s.length(); i++) {
-//            treeMap.computeIfAbsent(s.charAt(i), k -> new LinkedList<>()).add(i);
-//        }
-//
-//        TreeMap<Character, Integer> cacheMap = new TreeMap<>();
-//        Integer prev = Integer.MAX_VALUE;
-//        for (Character key : treeMap.keySet()) {
-//            LinkedList<Integer> value = treeMap.get(key);
-//            if (prev == Integer.MAX_VALUE) {
-//                cacheMap.put(key, value.getFirst());
-//                prev = value.getFirst();
-//                continue;
-//            }
-//
-//            if (value.getLast() < prev) {
-//                cacheMap.put(key, value.getLast());
-//                prev = Math.min(prev, value.getLast());
-//                continue;
-//            }
-//
-//            Integer finalPrev = prev;
-//            Integer res = value.stream().filter(o -> o > finalPrev).collect(Collectors.toList()).get(0);
-//            cacheMap.put(key, res);
-//            prev = Math.min(prev, res);
-//        }
-//
-//        StringBuilder result = new StringBuilder();
-//        cacheMap.entrySet().stream().sorted(Comparator.comparing(Map.Entry::getValue)).forEach(o -> result.append(o.getKey()));
-//        return result.toString();
-//    }
 }
