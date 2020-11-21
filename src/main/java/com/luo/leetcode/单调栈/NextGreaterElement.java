@@ -29,11 +29,17 @@ public class NextGreaterElement {
         }
     }
 
+    /**
+     * 下一个更大元素
+     * 1. 要得到下一个更大元素，由于问题是下一个，因此需要逆向遍历数组；由于是更大元素，因此需要维护一个递增单调栈
+     * 2. 当元素a大于栈顶元素peek时，要将peek弹出，然后记录下a对应的下一个更大值，如果此时栈为空为-1，否则就是栈顶元素
+     * 3. 将a入栈，继续逆序遍历
+     */
     public static int[] nextGreaterElement(int[] nums1, int[] nums2) {
         Map<Integer, Integer> valNextMap = new HashMap<>();
         Stack<Integer> stack = new Stack<>();
         for (int i = nums2.length - 1; i >= 0; i--) {
-            while (!stack.isEmpty() && stack.peek() < nums2[i]) {
+            while (!stack.isEmpty() && nums2[i] > stack.peek()) {
                 stack.pop();
             }
 

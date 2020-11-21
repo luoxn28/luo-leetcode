@@ -30,6 +30,7 @@ public class RemoveDuplicateLetters {
             count[c]++;
         }
 
+        // 表示栈中是否已存在该字符
         boolean[] visited = new boolean[256];
         Stack<Character> stack = new Stack<>();
         for (char c : s.toCharArray()) {
