@@ -13,28 +13,13 @@ public class NextPermutation {
 
     public static void main(String[] args) {
         {
-            int[] nums = new int[]{1, 2, 3};
-            new NextPermutation().nextPermutation(nums);
-            System.out.println(Arrays.toString(nums));
-        }
-        {
-            int[] nums = new int[]{3, 2, 1};
-            new NextPermutation().nextPermutation(nums);
-            System.out.println(Arrays.toString(nums));
-        }
-        {
-            int[] nums = new int[]{1, 1, 5};
-            new NextPermutation().nextPermutation(nums);
-            System.out.println(Arrays.toString(nums));
-        }
-        {
-            int[] nums = new int[]{2, 3, 1};
+            int[] nums = new int[]{1, 1};
             new NextPermutation().nextPermutation(nums);
             System.out.println(Arrays.toString(nums));
         }
     }
 
-    public void nextPermutation(int[] nums) {
+    public void nextPermutation2(int[] nums) {
         int i = nums.length - 2;
         while (i >= 0 && nums[i] >= nums[i + 1]) {
             i--;
@@ -47,6 +32,28 @@ public class NextPermutation {
             swap(nums, i, j);
         }
         reverse(nums, i + 1);
+    }
+
+    public void nextPermutation(int[] nums) {
+        // 逆序找到第一个 小于其右侧的元素n
+        int left = nums.length - 2;
+        while (left >= 0 && nums[left] >= nums[left + 1]) {
+            left--;
+        }
+        // 未找到翻转整个数组
+        if (left == -1) {
+            reverse(nums, 0);
+            return;
+        }
+
+        // 逆序找到第一个大于元素n的元素
+        int right = nums.length - 1;
+        while (right >= 0 && nums[right] <= nums[left]) {
+            right--;
+        }
+
+        swap(nums, left, right);
+        reverse(nums, left + 1);
     }
 
     public void swap(int[] nums, int i, int j) {

@@ -17,6 +17,15 @@ public class ListNode {
         return this.next = new ListNode(next);
     }
 
+    public ListNode(int... nums) {
+        this.val = nums[0];
+        ListNode node = this;
+        for (int i = 1; i < nums.length; i++) {
+            node.next(nums[i]);
+            node = node.next;
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
